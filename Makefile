@@ -13,7 +13,7 @@ endef
 
 HAS_GSUTIL := $(shell command -v gsutil;)
 HAS_FLARECTL := $(shell command -v flarectl;)
-HAS_SASS := $(shell command -v /usr/local/bin/sass;)
+HAS_SASS := $(shell command -v sass;)
 HAS_HUGO := $(shell command -v hugo;)
 
 .PHONY: release

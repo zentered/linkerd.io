@@ -7,7 +7,7 @@ CURRENT_SHA=$(git rev-parse --short HEAD)
 
 # Generate CSS
 rm -rf $BASE_DIR/static/css/gen
-/usr/local/bin/sass static/scss/index.scss:static/css/gen/index.css --style compressed
+sass static/scss/index.scss:static/css/gen/index.css --style compressed
 
 rm -rf $BASE_DIR/public
 hugo
