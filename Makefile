@@ -166,7 +166,7 @@ setup-ci:
 	curl -sL https://github.com/sass/dart-sass/releases/download/1.12.0/dart-sass-1.12.0-linux-x64.tar.gz | \
 		tar xvz -C ~/bin --strip-components=1 dart-sass
 	curl -sL https://github.com/gohugoio/hugo/releases/download/v0.46/hugo_0.46_Linux-64bit.tar.gz | \
-		tar xvz -C ~/bin
+		tar xvz -C ~/bin hugo
 
 .PHONY: clean
 clean:

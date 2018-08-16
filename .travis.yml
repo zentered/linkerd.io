@@ -14,4 +14,6 @@ jobs:
         - make setup-ci
 
       script:
+        - env
+        - ls -la ~/bin
         - make tmp-sites build-linkerd.io
