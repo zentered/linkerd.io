@@ -1,0 +1,14 @@
+---
+dist: trusty
+sudo: false
+
+jobs:
+  include:
+    - stage: build
+      language: generic
+
+      before_install:
+        - make setup-ci
+
+      script:
+        - make tmp-sites build-linkerd.io
