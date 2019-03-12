@@ -19,7 +19,7 @@ HAS_FLARECTL := $(shell command -v flarectl;)
 HAS_HUGO := $(shell command -v hugo;)
 HAS_HTMLTEST := $(shell command -v htmltest;)
 HAS_MDLINT := $(shell command -v markdownlint;)
-HAS_PA11Y := $(shell command -v pa11y)
+HAS_PA11Y := $(shell command -v pa11y-ci)
 
 .PHONY: publish
 publish: update-version build-linkerd.io deploy
@@ -53,6 +53,15 @@ tmp/%/public:
 tmp-sites: tmp
 	cp -R *linkerd.io tmp/
 
+.PHONY: a11y
+a11y: export PA11Y=true
+a11y: build-linkerd.io
+	@# Test for a11y, this is *not* run by CI as it is particularly slow.
+ifndef HAS_PA11Y
+	@printf "Install pa11y first. npm install -g pa11y-ci\n"; exit 1
+endif
+	find ./tmp/linkerd.io/public -name "*.html" | xargs pa11y-ci -c .pa11yci.json
+
 .PHONY: lint
 lint:
 	@# lint the markdown for linkerd.io
@@ -68,9 +77,6 @@ ifndef HAS_HTMLTEST
 	@printf "Install htmltest first. curl https://htmltest.wjdp.uk | bash\n"; exit 1
 endif
 	cd tmp/linkerd.io && htmltest
-ifndef HAS_PA11Y
-	@printf "Install pa11y first. npm install -g pa11y\n"; exit 1
-endif
 
 .PHONY: test-ci
 test-ci:

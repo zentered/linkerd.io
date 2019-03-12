@@ -1,0 +1,9 @@
+{
+  "#": "Automated accessibility testing ~ https://github.com/pa11y/pa11y-ci",
+
+  "defaults": {
+    "ignore": [
+      "WCAG2AA.Principle2.Guideline2_4.2_4_1.H64.1"
+    ]
+  }
+}
