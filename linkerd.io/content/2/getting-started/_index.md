@@ -135,9 +135,15 @@ linkerd dashboard &
 
 {{< fig src="/images/getting-started/empty-dashboard.png" title="Dashboard" >}}
 
-The control plane components all have the proxy installed in their pods and are
-part of the data plane itself. This provides the ability to dig into these
-components and see what is going on behind the scenes. In fact, you can run:
+This command sets up a port forward from your local system to the
+[linkerd-web](/2/reference/architecture/#linkerd-web) pod. Instead of running
+`linkerd dashboard` every time you'd like to see the dashboard, it is possible
+to [expose](/2/tasks/exposing-dashboard/) for anyone to access.
+
+Because the control plane components all have the proxy installed in their pods,
+each component is also part of the data plane itself. This provides the ability
+to dig into what is going on with the control plane itself behind the scenes.
+In fact, you can run:
 
 ```bash
 linkerd -n linkerd top deploy/linkerd-web
@@ -157,11 +163,11 @@ curl -sL https://run.linkerd.io/emojivoto.yml \
   | kubectl apply -f -
 ```
 
-Before we mesh it, let's take a look at the app. If you're using [Docker for
+Before we mesh it, let's take a look at the app. If you're using [Docker
 Desktop](https://www.docker.com/products/docker-desktop) at this point you can
-visit [http://localhost](http://localhost) directly.  If you're not using
-Docker for Desktop, we'll need to forward the `web-svc` service. To forward
-`web-svc` locally to port 8080, you can run:
+visit [http://localhost](http://localhost) directly.  If you're not using Docker
+Desktop, we'll need to forward the `web-svc` service. To forward `web-svc`
+locally to port 8080, you can run:
 
 ```bash
 kubectl -n emojivoto port-forward svc/web-svc 8080:80
@@ -176,7 +182,7 @@ worry, these errors are intentional. (And we can use Linkerd to identify the
 problem. Check out the [debugging guide](../debugging-an-app/) if you're
 interested in how to figure out exactly what is wrong.)
 
-Next, let's add Linkerd to the Emojivoto app, by running:
+Next, let's add Linkerd to the app, by running:
 
 ```bash
 kubectl get -n emojivoto deploy -o yaml \
@@ -186,24 +192,29 @@ kubectl get -n emojivoto deploy -o yaml \
 
 This command retrieves all of the deployments running in the `emojivoto`
 namespace, runs the set of Kubernetes resources through `inject`, and finally
-reapplies it to the cluster. The `inject` command augments the resources to
-include the data plane's proxies. As with `install`, `inject` is a pure text
-operation, meaning that you can inspect the input and output before you use it.
-You can even run it through `diff` to see exactly what is changing.
+reapplies it to the cluster. The `inject` command adds annotations to the pod
+spec. These annotations instruct
+[linkerd-proxy-injector](/2/reference/architecture/#proxy-injector) to
+automatically augment the resources. The data plane's proxy is added as a
+container to the pod spec along with
+[linkerd-proxy-init](/2/reference/architecture/#proxy-init) as an
+`initContainer`.
 
-Once piped into `kubectl apply`, Kubernetes will execute a rolling deploy and
-update each pod with the data plane's proxies, all without any downtime.
+As with `install`, `inject` is a pure text operation, meaning that you can
+inspect the input and output before you use it. You can even run it through
+`diff` to see exactly what is changing. Once piped into `kubectl apply`,
+Kubernetes will execute a rolling deploy and update each pod with the data
+plane's proxies, all without any downtime.
 
 You've added Linkerd to existing services without touching the original YAML!
 Because `inject` augments YAML, it would also be possible to take
-`emojivoto.yml` itself and do the same thing
-(`cat emojivoto.yml | linkerd inject -`).
-This is a great way to get Linkerd integrated into your CI/CD
+`emojivoto.yml` itself and do the same thing (`cat emojivoto.yml | linkerd
+inject -`). This is a great way to get Linkerd integrated into your CI/CD
 pipeline. You can choose which services use Linkerd one at a time and
 incrementally add them to the data plane.
 
-Just like with the control plane, it is possible to verify that everything worked
-the way it should with the data plane. To do this check, run:
+Just like with the control plane, it is possible to verify that everything
+worked the way it should with the data plane. To do this check, run:
 
 ```bash
 linkerd -n emojivoto check --proxy
@@ -271,10 +282,12 @@ browser instead. The dashboard views look like:
 {{< /gallery >}}
 
 These are all great for seeing real time data, but what about things that
-happened in the past? Linkerd includes Grafana to visualize all the great
-metrics collected by Prometheus and ships with some extremely valuable
-dashboards. You can get to these by clicking the Grafana icon in the overview
-page.
+happened in the past? Linkerd includes
+[Grafana](http://localhost:1313/2/reference/architecture/#grafana) to visualize
+all the great metrics collected by
+[Prometheus](http://localhost:1313/2/reference/architecture/#prometheus) and
+ships with some extremely valuable dashboards. You can get to these by clicking
+the Grafana icon in the overview page.
 
 {{< fig src="/images/getting-started/grafana.png"
     title="Deployment Detail Dashboard">}}
@@ -283,8 +296,8 @@ page.
 
 For more things you can do:
 
-- [Debug emojivoto](../debugging-an-app/)
-- [Add Linkerd to your service](../adding-your-service/)
-- [Learn more](../architecture/) about Linkerd's architecture
+- [Debug a service](/2/debugging-an-app/)
+- [Add Linkerd to your service](/2/adding-your-service/)
+- [Learn more](/2/architecture/) about Linkerd's architecture
 - Hop into the #linkerd2 channel on
   [the Linkerd Slack](https://slack.linkerd.io)
