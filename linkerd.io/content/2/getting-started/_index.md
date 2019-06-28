@@ -27,7 +27,7 @@ We'll walk you through this process step by step.
 ## Step 0: Setup
 
 Before we can do anything, we need to ensure you have access to a Kubernetes
-cluster running 1.10.0 or later, and a functioning `kubectl` command on your
+cluster running 1.12 or later, and a functioning `kubectl` command on your
 local machine.
 
 You can run Kubernetes on your local machine. We suggest
@@ -42,15 +42,14 @@ When ready, make sure you're running a recent version of Kubernetes with:
 kubectl version --short
 ```
 
-In the next step, we will install the CLI and validate that your cluster is
-ready to install the control plane.
+In the next step, we will install the Linkerd CLI and validate that your cluster
+is ready to install the control plane.
 
 ## Step 1: Install the CLI
 
-If this is your first time running Linkerd, you’ll need to download the
-command-line interface (CLI) onto your local machine. You’ll use this CLI to
-interact with Linkerd, including installing the control plane onto your
-Kubernetes cluster.
+If this is your first time running Linkerd, you will need to download the
+command-line interface (CLI) onto your local machine. This CLI interacts with
+Linkerd, including installing the control plane onto your Kubernetes cluster.
 
 To install the CLI, run:
 
@@ -73,8 +72,9 @@ Verify the CLI is installed and running correctly with:
 linkerd version
 ```
 
-You should see the CLI version, and also "Server version: unavailable". This
-is because we haven't installed the control plane. We'll do that soon.
+You should see the CLI version, and also "Server version: unavailable". This is
+because you haven't installed the control plane on your cluster. Don't worry,
+you'll be installing the control plane soon.
 
 ## Step 2: Validate your Kubernetes cluster
 
@@ -93,8 +93,7 @@ linkerd check --pre
 
 Now that you have the CLI running locally and a cluster that is ready to go,
 it's time to install the lightweight control plane into its own namespace
-(`linkerd`). If you would like to install it into a different namespace, check out
-the help for `install`. To do this, run:
+(`linkerd`). To do this, run:
 
 ```bash
 linkerd install | kubectl apply -f -
@@ -103,18 +102,19 @@ linkerd install | kubectl apply -f -
 `linkerd install` generates a list of Kubernetes resources. Run it standalone if
 you would like to understand what is going on. By piping the output of `linkerd
 install` into `kubectl`, the Linkerd control plane resources will be added to
-your cluster and start running immediately.
+your cluster and start up.
 
 Depending on the speed of your internet connection, it may take a minute or two
-for your Kubernetes cluster to pull the Linkerd images. While that’s happening,
-we can validate that everything’s happening correctly by running:
+for your Kubernetes cluster to pull the Linkerd images. While that is happening,
+we can validate the installation by running:
 
 ```bash
 linkerd check
 ```
 
-This command will patiently wait until Linkerd has been installed and is
-running. If you're interested in what components were installed, you can run:
+This command will patiently wait until Linkerd has been installed, is running
+and becomes healthy. If you're interested in what components were installed, you
+can run:
 
 ```bash
 kubectl -n linkerd get deploy
