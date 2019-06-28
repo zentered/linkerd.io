@@ -298,6 +298,6 @@ For more things you can do:
 
 - [Debug a service](/2/debugging-an-app/)
 - [Add Linkerd to your service](/2/adding-your-service/)
-- [Learn more](/2/architecture/) about Linkerd's architecture
+- [Learn more](/2/reference/architecture/) about Linkerd's architecture
 - Hop into the #linkerd2 channel on
   [the Linkerd Slack](https://slack.linkerd.io)
