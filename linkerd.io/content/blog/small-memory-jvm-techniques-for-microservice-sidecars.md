@@ -3,6 +3,7 @@ slug: 'small-memory-jvm-techniques-for-microservice-sidecars'
 title: 'Squeezing blood from a stone: small-memory JVM techniques for microservice sidecars'
 aliases:
   - /2016/06/17/small-memory-jvm-techniques-for-microservice-sidecars/
+  - /2016/06/17/squeezing-blood-from-a-stone-small-memory-jvm-techniques-for-microservice-sidecars/
 author: 'steve'
 date: Fri, 17 Jun 2016 22:34:27 +0000
 draft: false

@@ -5,7 +5,6 @@ aliases:
   - /2016/10/14/a-service-mesh-for-kubernetes-part-ii-pods-are-great-until-theyre-not-2/
   - /2016/10/14/a-service-mesh-for-kubernetes-part-ii-pods-are-great-until-theyre-not-3/
   - /2016/10/14/a-service-mesh-for-kubernetes-part-ii-pods-are-great-until-theyre-not-4/
-  - /2016/06/17/squeezing-blood-from-a-stone-small-memory-jvm-techniques-for-microservice-sidecars/
 author: 'alex'
 thumbnail: /uploads/kubernetes2_featured_Twitter_ratio.png
 date: Fri, 14 Oct 2016 22:55:04 +0000
